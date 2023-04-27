@@ -10,19 +10,30 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloFuncionario
 {
     public class TelaFuncionario : Tela
     {
-        Funcionario funcionario;
         public RepositorioFuncionario repositorioFuncionario;
 
-        public void CadastrarFuncionario()
+        public TelaFuncionario(RepositorioFuncionario repositorioFuncionario) : base(repositorioFuncionario)
         {
-            Funcionario funcionario = obterFuncionario();
-
-            repositorioFuncionario.Cadastrar(funcionario);
-
-            ApresentarMensagem("Funcionario cadastrado com sucesso!", ConsoleColor.Green);
+            this.repositorioFuncionario = repositorioFuncionario;
         }
 
-        public void VisualizarFuncionarios()
+        protected override Entidade ObterRegistro()
+        {
+            Console.Clear();
+            Console.WriteLine("Informe o nome do funcionario: ");
+            string nome = Console.ReadLine();
+            Console.WriteLine("Informe o cpf do funcionario: ");
+            int cpf = int.Parse(Console.ReadLine());
+            Console.WriteLine("Informe o telefone do funcionario: ");
+            int telefone = int.Parse(Console.ReadLine());
+            Console.WriteLine("Informe o endereco do funcionario: ");
+            string endereco = Console.ReadLine();
+
+            Funcionario funcionario = new Funcionario(nome,cpf,telefone,endereco);
+            return funcionario;
+        }
+
+        public override void VisualizarRegistros()
         {
             if (repositorioFuncionario.listaRegistro.Count == 0)
             {
@@ -40,58 +51,6 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloFuncionario
                 }
                 Console.WriteLine();
             }
-        }
-
-        public void EditarFuncionario()
-        {
-            VisualizarFuncionarios();
-
-            if (repositorioFuncionario.listaRegistro.Count == 0)
-                return;
-
-            Console.WriteLine("Informe o id do funcionario que deseja editar: ");
-            int idSelecionado = int.Parse(Console.ReadLine());
-
-            Funcionario funcionario = (Funcionario)repositorioFuncionario.PegarPorId(idSelecionado);
-
-            Funcionario funcionarioAtualizado = obterFuncionario();
-
-            repositorioFuncionario.Editar(funcionario, funcionarioAtualizado);
-
-            ApresentarMensagem("Funcionario editado com sucesso!", ConsoleColor.Green);
-        }
-
-        public void ExcluirFuncionario()
-        {
-            VisualizarFuncionarios();
-
-            if (repositorioFuncionario.listaRegistro.Count == 0)
-                return;
-
-            Console.WriteLine("Informe o id do funcionario que deseja excluir: ");
-            int idSelecionado = int.Parse(Console.ReadLine());
-
-            Funcionario funcionario = (Funcionario)repositorioFuncionario.PegarPorId(idSelecionado);
-
-            repositorioFuncionario.Excluir(funcionario);
-
-            ApresentarMensagem("Funcionario excluído com sucesso!", ConsoleColor.Green);
-        }
-
-        private Funcionario obterFuncionario()
-        {
-            Console.Clear();
-            Funcionario funcionario = new Funcionario();
-            Console.WriteLine("Informe o nome do funcionario: ");
-            funcionario.nome = Console.ReadLine();
-            Console.WriteLine("Informe o cpf do funcionario: ");
-            funcionario.cpf = int.Parse(Console.ReadLine());
-            Console.WriteLine("Informe o telefone do funcionario: ");
-            funcionario.telefone = int.Parse(Console.ReadLine());
-            Console.WriteLine("Informe o endereco do funcionario: ");
-            funcionario.endereco = Console.ReadLine();
-
-            return funcionario;
         }
     }
 }

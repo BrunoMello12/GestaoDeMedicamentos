@@ -1,5 +1,6 @@
 ﻿using GestaoDeMedicamentos.ConsoleApp.Compartilhado;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,6 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloPaciente
 {
     public class RepositorioPaciente : Repositorio
     {
-        public void Editar(Paciente paciente, Paciente pacienteAtualizado)
-        {
-            paciente.nome = pacienteAtualizado.nome;
-            paciente.cpf = pacienteAtualizado.cpf;
-            paciente.telefone = pacienteAtualizado.telefone;
-            paciente.endereco = pacienteAtualizado.endereco;
-        }
+        
     }
 }

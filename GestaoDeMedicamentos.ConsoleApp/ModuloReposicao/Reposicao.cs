@@ -17,5 +17,19 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloReposicao
         public Funcionario funcionario;
         public int data;
         public int qntdMedicamento;
+
+        public Reposicao(Fornecedor fornecedor, Medicamento medicamento, Funcionario funcionario, int data, int qntdMedicamento)
+        {
+            this.fornecedor = fornecedor;
+            this.medicamento = medicamento;
+            this.funcionario = funcionario;
+            this.data = data;
+            this.qntdMedicamento = qntdMedicamento;
+        }
+
+        public override void AtualizarInformacoes(Entidade RegistroAtualizado)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

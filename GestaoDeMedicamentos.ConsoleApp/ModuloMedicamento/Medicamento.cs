@@ -16,6 +16,15 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloMedicamento
         public int qntdLimite;
         public Fornecedor fornecedor;
 
+        public Medicamento(string nome, string descricao, int qntdDisponivel, int qntdLimite, Fornecedor fornecedor)
+        {
+            this.nome = nome;
+            this.descricao = descricao;
+            this.qntdDisponivel = qntdDisponivel;
+            this.qntdLimite = qntdLimite;
+            this.fornecedor = fornecedor;
+        }
+
         public void ValidarQuantidade()
         {
             if (qntdDisponivel > qntdLimite)
@@ -34,6 +43,11 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloMedicamento
         public void SomarQntd(int qntdMedicamento)
         {
             qntdDisponivel = qntdDisponivel + qntdMedicamento;
+        }
+
+        public override void AtualizarInformacoes(Entidade RegistroAtualizado)
+        {
+            throw new NotImplementedException();
         }
     }
 }

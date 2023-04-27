@@ -20,27 +20,18 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloReposicao
         public RepositorioFornecedor repositorioFornecedor;
         public RepositorioMedicamento repositorioMedicamento;
 
-        public void InserirNovaReposicao()
+        public TelaReposicao(RepositorioReposicao repositorioReposicao,Repositorio repositorio, RepositorioMedicamento repositorioMedicamento, RepositorioFornecedor repositorioFornecedor, RepositorioFuncionario repositorioFuncionario) : base(repositorio)
         {
-            Reposicao novaReposicao = ObterReposicao();
-
-            if (novaReposicao == null)
-                return;
-
-            repositorioReposicao.Cadastrar(novaReposicao);
-
-            ApresentarMensagem("Medicamento criado com sucesso!", ConsoleColor.Green);
+            this.repositorioReposicao = repositorioReposicao;
+            this.repositorioFuncionario = repositorioFuncionario;
+            this.repositorioFornecedor = repositorioFornecedor;
+            this.repositorioMedicamento = repositorioMedicamento;
         }
 
-        public void VisualizarReposicao()
+        public override void VisualizarRegistros()
         {
             Console.Clear();
-            Console.WriteLine("Histórico de aquisições:");
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("|ID |Fornecedor       |Medicamento          |Funcionário   |Data      |Quantidade |");
-            Console.WriteLine("-----------------------------------------------------------------------------------");
-            Console.ResetColor();
+            Console.WriteLine("{0,-10} | {1,-20} | {2,-20} | {3,-20} | {4,-20} | {5,-20}", "ID", "Fornecedor", "Medicamento", "Funcionário", "Data", "Quantidade de Medicamento");
 
             if (repositorioReposicao.listaRegistro.Count == 0)
             {
@@ -50,15 +41,13 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloReposicao
 
             foreach (Reposicao reposicao in repositorioReposicao.listaRegistro)
             {
-                Console.WriteLine("|{0,-3}|{1,-17}|{2,-21}|{3,-14}|{4,-10}|{5,-11}|", reposicao.id, reposicao.fornecedor.nome, reposicao.medicamento.nome, reposicao.funcionario.nome, reposicao.data, reposicao.qntdMedicamento);
+                Console.WriteLine("{0,-10} | {1,-20} | {2,-20} | {3,-20} | {4,-20} | {5,-20}", reposicao.id, reposicao.fornecedor.nome, reposicao.medicamento.nome, reposicao.funcionario.nome, reposicao.data, reposicao.qntdMedicamento);
             }
-
-            Console.ReadKey();
         }
 
-        private Reposicao ObterReposicao()
+        protected override Entidade ObterRegistro()
         {
-            Reposicao reposicao = new Reposicao();
+            Reposicao reposicao;
 
             if (repositorioFornecedor.listaRegistro.Count == 0)
             {
@@ -77,7 +66,7 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloReposicao
             }
             else
             {
-                
+
                 Console.Write("Informe o id do fornecedor: ");
                 int idFornecedor = int.Parse(Console.ReadLine());
 
@@ -99,8 +88,10 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloReposicao
 
                 medicamento.SomarQntd(qntdMedicamento);
                 medicamento.ValidarQuantidade();
+
+                reposicao = new Reposicao(fornecedor, medicamento, funcionario, dataAquisicao, qntdMedicamento);
             }
-            
+
             return reposicao;
         }
     }

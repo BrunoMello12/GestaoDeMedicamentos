@@ -3,6 +3,7 @@ using GestaoDeMedicamentos.ConsoleApp.ModuloFuncionario;
 using GestaoDeMedicamentos.ConsoleApp.ModuloMedicamento;
 using GestaoDeMedicamentos.ConsoleApp.ModuloPaciente;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

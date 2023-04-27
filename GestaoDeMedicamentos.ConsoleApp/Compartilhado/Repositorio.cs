@@ -20,6 +20,13 @@ namespace GestaoDeMedicamentos.ConsoleApp.Compartilhado
             ContarId();
         }
 
+        public virtual void Editar(int idSelecionado, Entidade RegistroAtualizado)
+        {
+            Entidade entidade = PegarPorId(idSelecionado);
+
+            entidade.AtualizarInformacoes(RegistroAtualizado);
+        }
+
         public void ContarId()
         {
             ContadorId++;

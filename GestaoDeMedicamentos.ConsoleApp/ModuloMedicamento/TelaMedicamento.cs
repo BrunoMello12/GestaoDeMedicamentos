@@ -12,45 +12,19 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloMedicamento
 {
     public class TelaMedicamento : Tela
     {
-        Medicamento medicamento;
         public RepositorioMedicamento repositorioMedicamento;
         public RepositorioFornecedor repositorioFornecedor;
         public TelaFornecedor telaFornecedor;
 
-        public void CadastrarMedicamento()
+        public TelaMedicamento(RepositorioMedicamento repositorioMedicamento, RepositorioFornecedor repositorioFornecedor, TelaFornecedor telaFornecedor) : base(repositorioMedicamento)
         {
-            Medicamento medicamento = ObterMedicamento();
-
-            if (medicamento == null)
-                return;
-
-            repositorioMedicamento.Cadastrar(medicamento);
-
-            ApresentarMensagem("Medicamento cadastrado com sucesso!", ConsoleColor.Green);
-        }
-
-        public void VisualizarMedicamentos()
-        {
-            if (repositorioMedicamento.listaRegistro.Count == 0)
-            {
-                ApresentarMensagem("Não tem medicamentos cadastrados", ConsoleColor.DarkYellow);
-                return;
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("{0,-10} | {1,-20} | {2,-20} | {3,-20} | {4,-20}", "ID", "Nome", "Descrição", "Quantidade diponível", "Fornecedor");
-
-                foreach (Medicamento medicamento in repositorioMedicamento.listaRegistro)
-                {
-                    Console.WriteLine("{0,-10} | {1,-20} | {2,-20} | {3,-20} | {4,-20}", medicamento.id, medicamento.nome, medicamento.descricao, medicamento.qntdDisponivel, medicamento.fornecedor.nome);
-                }
-                Console.WriteLine();
-            }
+            this.repositorioMedicamento = repositorioMedicamento;
+            this.repositorioFornecedor = repositorioFornecedor;
+            this.telaFornecedor = telaFornecedor;
         }
 
         public void VisualizarRelatorioMedicamento()
-        { 
+        {
             Console.Clear();
             Console.WriteLine("Relatório de medicamentos:");
             Console.WriteLine();
@@ -71,38 +45,62 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloMedicamento
             Console.ReadKey();
         }
 
-        private Medicamento ObterMedicamento()
+        protected override Entidade ObterRegistro()
         {
-            Medicamento medicamento = new Medicamento();
+            Medicamento medicamento;
+
             Console.Clear();
-            telaFornecedor.VisualizarFornecedor();
+            telaFornecedor.VisualizarRegistros();
 
             if (repositorioFornecedor.listaRegistro.Count == 0)
-                 medicamento = null;
+                medicamento = null;
             else
             {
                 Console.WriteLine("Informe o nome do Medicamento: ");
-                medicamento.nome = Console.ReadLine();
+                string nome = Console.ReadLine();
                 Console.WriteLine("Informe a descrição: ");
-                medicamento.descricao = Console.ReadLine();
-                Console.WriteLine("Informe a quantidade: ");
-                medicamento.qntdDisponivel = int.Parse(Console.ReadLine());
+                string descricao = Console.ReadLine();
+                Console.WriteLine("Informe a quantidade Disponível: ");
+                int quantidade = int.Parse(Console.ReadLine());
                 Console.WriteLine("Informe a quantidade limite: ");
-                medicamento.qntdLimite = int.Parse(Console.ReadLine());
+                int qntdLimite = int.Parse(Console.ReadLine());
                 Console.WriteLine("Informe o id do fornecedor do medicamento: ");
                 int idFornecedor = int.Parse(Console.ReadLine());
 
-                medicamento.fornecedor = (Fornecedor)repositorioFornecedor.PegarPorId(idFornecedor);
+                Fornecedor fornecedorSelecionado = (Fornecedor)repositorioFornecedor.PegarPorId(idFornecedor);
 
-                if (medicamento.fornecedor == null)
+                if (fornecedorSelecionado == null)
                 {
                     medicamento = null;
                     ApresentarMensagem("Id inválido, tente novamente!", ConsoleColor.Red);
                 }
-                    
+
+                medicamento = new Medicamento(nome, descricao, quantidade, qntdLimite, fornecedorSelecionado);
             }
+
             
             return medicamento;
+
+        }
+
+        public override void VisualizarRegistros()
+        {
+            if (repositorioMedicamento.listaRegistro.Count == 0)
+            {
+                ApresentarMensagem("Não tem medicamentos cadastrados", ConsoleColor.DarkYellow);
+                return;
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("{0,-10} | {1,-20} | {2,-20} | {3,-20} | {4,-20}", "ID", "Nome", "Descrição", "Quantidade diponível", "Fornecedor");
+
+                foreach (Medicamento medicamento in repositorioMedicamento.listaRegistro)
+                {
+                    Console.WriteLine("{0,-10} | {1,-20} | {2,-20} | {3,-20} | {4,-20}", medicamento.id, medicamento.nome, medicamento.descricao, medicamento.qntdDisponivel, medicamento.fornecedor.nome);
+                }
+                Console.WriteLine();
+            }
         }
     }
 }

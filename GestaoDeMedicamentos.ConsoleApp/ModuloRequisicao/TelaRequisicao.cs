@@ -18,28 +18,19 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloRequisicao
         public RepositorioMedicamento repositorioMedicamento;
         public RepositorioRequisicao repositorioRequisicao;
         public RepositorioPaciente repositorioPaciente;
+        private RepositorioFornecedor repositorioFornecedor;
 
-        public void InserirNovaRequisicao()
+        public TelaRequisicao(Repositorio repositorio, RepositorioMedicamento repositorioMedicamento, RepositorioFornecedor repositorioFornecedor, RepositorioPaciente repositorioPaciente) : base(repositorio)
         {
-            Requisicao novaRequisicao = ObterRequisicao();
-
-            if (novaRequisicao == null)
-                return;
-
-            repositorioRequisicao.Cadastrar(novaRequisicao);
-
-            ApresentarMensagem("Medicamento criado com sucesso!", ConsoleColor.Green);
+            this.repositorioMedicamento = repositorioMedicamento;
+            this.repositorioFornecedor = repositorioFornecedor;
+            this.repositorioPaciente = repositorioPaciente;
         }
 
-        public void VisualizarRequisicao()
+        public override void VisualizarRegistros()
         {
             Console.Clear();
-            Console.WriteLine("Histórico de requisições:");
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("|ID |Paciente         |Medicamento          |Funcionário   |Data      |Quantidade |");
-            Console.WriteLine("-----------------------------------------------------------------------------------");
-            Console.ResetColor();
+            Console.WriteLine("{0,-10} | {1,-20} | {2,-20} | {3,-20} | {4,-20} | {5,-20}", "ID", "Paciente", "Medicamento", "Funcionário", "Data", "Quantidade de Medicamento");
 
             if (repositorioRequisicao.listaRegistro.Count == 0)
             {
@@ -47,17 +38,16 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloRequisicao
                 return;
             }
 
-            foreach (Requisicao reposicao in repositorioRequisicao.listaRegistro)
+            foreach (Requisicao requisicao in repositorioRequisicao.listaRegistro)
             {
-                Console.WriteLine("|{0,-3}|{1,-17}|{2,-21}|{3,-14}|{4,-10}|{5,-11}|", reposicao.id, reposicao.paciente.nome, reposicao.medicamento.nome, reposicao.funcionario.nome, reposicao.data, reposicao.qntdMedicamento);
+                Console.WriteLine("{0,-3} | {1,-17} | {2,-21} | {3,-14} | {4,-10} | {5,-11}", requisicao.id, requisicao.paciente.nome, requisicao.medicamento.nome, requisicao.funcionario.nome, requisicao.data, requisicao.qntdMedicamento);
             }
-
-            Console.ReadKey();
         }
 
-        public Requisicao ObterRequisicao()
+        protected override Entidade ObterRegistro()
         {
-            Requisicao requisicao = new Requisicao();
+            Requisicao requisicao;
+
 
             if (repositorioPaciente.listaRegistro.Count == 0)
             {
@@ -73,7 +63,7 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloRequisicao
             {
                 requisicao = null;
                 ApresentarMensagem("Nenhum funcionario registrado!", ConsoleColor.DarkYellow);
-            } 
+            }
             else
             {
                 Console.Write("Informe o id do paciente: ");
@@ -96,8 +86,9 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloRequisicao
                 Funcionario funcionario = (Funcionario)repositorioFuncionario.PegarPorId(idFuncionario);
 
                 medicamento.DiminuirQntd(qntdMedicamento);
+
+                requisicao = new Requisicao(paciente, medicamento, funcionario, dataRequisicao, qntdMedicamento);
             }
-            
 
             return requisicao;
         }

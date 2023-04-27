@@ -10,19 +10,14 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloFornecedor
 {
     public class TelaFornecedor : Tela
     {
-        Fornecedor fornecerdor;
         public RepositorioFornecedor repositorioFornecedor;
 
-        public void CadastrarFornecedor()
+        public TelaFornecedor(RepositorioFornecedor repositorioFornecedor) : base(repositorioFornecedor)
         {
-            Fornecedor fornecedor = ObterFornecedor();
-
-            repositorioFornecedor.Cadastrar(fornecedor);
-
-            ApresentarMensagem("Fornecedor cadastrado com sucesso!", ConsoleColor.Green);
+            this.repositorioFornecedor = repositorioFornecedor;
         }
 
-        public void VisualizarFornecedor()
+        public override void VisualizarRegistros()
         {
             if (repositorioFornecedor.listaRegistro.Count == 0)
             {
@@ -33,61 +28,26 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloFornecedor
             {
                 Console.Clear();
                 Console.WriteLine("{0,-10} | {1,-20} | {2,-20} | {3,-20}", "ID", "Nome", "telefone", "cpnj");
-                foreach(Fornecedor fornecedor in repositorioFornecedor.listaRegistro)
+                foreach (Fornecedor fornecedor in repositorioFornecedor.listaRegistro)
                 {
                     Console.WriteLine("{0,-10} | {1,-20} | {2,-20} | {3,-20}", fornecedor.id, fornecedor.nome, fornecedor.telefone, fornecedor.cnpj);
                 }
             }
         }
 
-        public void EditarFuncionario()
+        protected override Entidade ObterRegistro()
         {
-            VisualizarFornecedor();
-
-            if (repositorioFornecedor.listaRegistro.Count == 0)
-                return;
-
-            Console.WriteLine("Informe o id do funcionario que deseja editar: ");
-            int idSelecionado = int.Parse(Console.ReadLine());
-
-            Fornecedor fornecedor = (Fornecedor)repositorioFornecedor.PegarPorId(idSelecionado);
-
-            Fornecedor fornecedorAtualizado = ObterFornecedor();
-
-            repositorioFornecedor.Editar(fornecedor, fornecedorAtualizado);
-
-            ApresentarMensagem("Funcionario editado com sucesso!", ConsoleColor.Green);
-        }
-
-        public void ExcluirFuncionario()
-        {
-            VisualizarFornecedor();
-
-            if (repositorioFornecedor.listaRegistro.Count == 0)
-                return;
-
-            Console.WriteLine("Informe o id do funcionario que deseja excluir: ");
-            int idSelecionado = int.Parse(Console.ReadLine());
-
-            Funcionario funcionario = (Funcionario)repositorioFornecedor.PegarPorId(idSelecionado);
-
-            repositorioFornecedor.Excluir(funcionario);
-
-            ApresentarMensagem("Funcionario excluído com sucesso!", ConsoleColor.Green);
-        }
-
-        private Fornecedor ObterFornecedor()
-        {
-            Fornecedor fornecerdor = new Fornecedor();
+            
             Console.Clear();
             Console.WriteLine("Informe o nome do Fornecedor: ");
-            fornecerdor.nome = Console.ReadLine();
+            string nome = Console.ReadLine();
             Console.WriteLine("Informe o telefone do Fornecedor: ");
-            fornecerdor.telefone = int.Parse(Console.ReadLine());
+            int telefone = int.Parse(Console.ReadLine());
             Console.WriteLine("Informe o cnpj do Fornecedor: ");
-            fornecerdor.cnpj = int.Parse(Console.ReadLine());
+            int cnpj = int.Parse(Console.ReadLine());
 
-            return fornecerdor;
+            Fornecedor fornecedor = new Fornecedor(nome,telefone,cnpj);
+            return fornecedor;
         }
     }
     

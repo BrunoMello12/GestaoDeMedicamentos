@@ -17,5 +17,19 @@ namespace GestaoDeMedicamentos.ConsoleApp.ModuloRequisicao
         public Funcionario funcionario;
         public int data;
         public int qntdMedicamento;
+
+        public Requisicao(Paciente paciente, Medicamento medicamento, Funcionario funcionario, int data, int qntdMedicamento)
+        {
+            this.paciente = paciente;
+            this.medicamento = medicamento;
+            this.funcionario = funcionario;
+            this.data = data;
+            this.qntdMedicamento = qntdMedicamento;
+        }
+
+        public override void AtualizarInformacoes(Entidade RegistroAtualizado)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

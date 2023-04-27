@@ -75,10 +75,10 @@ namespace GestaoDeMedicamentos.ConsoleApp
 
             switch (opcaoMenuPaciente)
             {
-                case "1": telaPaciente.CadastrarPaciente(); break;
-                case "2": telaPaciente.VisualizarPacientes(); Console.ReadLine(); break;
-                case "3": telaPaciente.EditarPaciente(); break;
-                case "4": telaPaciente.ExcluirPaciente(); break;
+                case "1": telaPaciente.CadastrarRegistro(); break;
+                case "2": telaPaciente.VisualizarRegistros(); Console.ReadLine(); break;
+                case "3": telaPaciente.Editar(); break;
+                case "4": telaPaciente.Excluir(); break;
             }
         }
 
@@ -96,10 +96,10 @@ namespace GestaoDeMedicamentos.ConsoleApp
 
             switch (opcaoMenuFuncionario)
             {
-                case "1": telaFuncionario.CadastrarFuncionario(); break;
-                case "2": telaFuncionario.VisualizarFuncionarios(); Console.ReadLine(); break;
-                case "3": telaFuncionario.EditarFuncionario(); break;
-                case "4": telaFuncionario.ExcluirFuncionario(); break;
+                case "1": telaFuncionario.CadastrarRegistro(); break;
+                case "2": telaFuncionario.VisualizarRegistros(); Console.ReadLine(); break;
+                case "3": telaFuncionario.Editar(); break;
+                case "4": telaFuncionario.Excluir(); break;
             }
         }
 
@@ -116,8 +116,8 @@ namespace GestaoDeMedicamentos.ConsoleApp
 
             switch (opcaoMenuMedicamentos)
             {
-                case "1": telaMedicamento.CadastrarMedicamento(); break;
-                case "2": telaMedicamento.VisualizarMedicamentos(); Console.ReadLine(); break;
+                case "1": telaMedicamento.CadastrarRegistro(); break;
+                case "2": telaMedicamento.VisualizarRegistros(); Console.ReadLine(); break;
                 case "3": telaMedicamento.VisualizarRelatorioMedicamento(); Console.ReadLine(); break;
             }
         }
@@ -136,10 +136,10 @@ namespace GestaoDeMedicamentos.ConsoleApp
 
             switch (opcaoMenuFornecedores)
             {
-                case "1": telaFornecedor.CadastrarFornecedor(); break;
-                case "2": telaFornecedor.VisualizarFornecedor(); Console.ReadLine(); break;
-                case "3": break;
-                case "4": break;
+                case "1": telaFornecedor.CadastrarRegistro(); break;
+                case "2": telaFornecedor.VisualizarRegistros(); Console.ReadLine(); break;
+                case "3": telaFornecedor.Editar(); break;
+                case "4": telaFornecedor.Excluir(); break;
             }
         }
 
@@ -155,8 +155,8 @@ namespace GestaoDeMedicamentos.ConsoleApp
 
             switch (opcaoMenuReposicao)
             {
-                case "1": telaReposicao.InserirNovaReposicao(); break;
-                case "2": telaReposicao.VisualizarReposicao(); break;
+                case "1": telaReposicao.CadastrarRegistro(); break;
+                case "2": telaReposicao.VisualizarRegistros(); break;
             }
         }
 
@@ -172,8 +172,8 @@ namespace GestaoDeMedicamentos.ConsoleApp
 
             switch (opcaoMenuRequisicao)
             {
-                case "1": telaRequisicao.InserirNovaRequisicao(); break;
-                case "2": telaRequisicao.VisualizarRequisicao(); break;
+                case "1": telaRequisicao.CadastrarRegistro(); break;
+                case "2": telaRequisicao.VisualizarRegistros(); break;
             }
         }
     }
